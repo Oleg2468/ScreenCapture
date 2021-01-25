@@ -25,13 +25,13 @@ public:
     ResizeGraphicsItem(ResizeMode mode, const QRectF &rect = QRectF(), QGraphicsItem *parent = nullptr, QObject *scene = nullptr);
 
 public slots:
-    void onItemRectChanged(QRectF rect, ResizeMode resize_mode);
+   void onItemRectChanged(QRectF rect, ResizeMode resize_mode);
 
 signals:
     void positionChanged(QPointF pos, ResizeMode resize_mode);
 
 protected:
-    QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
+   QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
 
 private:
     ResizeMode ResizeModeValue;

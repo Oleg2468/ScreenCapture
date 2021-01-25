@@ -29,7 +29,6 @@ MainWindow::MainWindow(QWidget *parent)
     QGraphicsScene* scene = new QGraphicsScene(view);
     scene->setSceneRect(view->geometry());
     view->setScene(scene);
-    view->setBackgroundBrush(QBrush(QColor(0, 0, 0, 0)));
 
     BackgroundPolygonItem* background_item = new BackgroundPolygonItem(QPolygonF(), nullptr, scene);
     background_item->setBrush(QBrush(QColor(0, 0, 200, 100)));
@@ -40,16 +39,16 @@ MainWindow::MainWindow(QWidget *parent)
     capture_item->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemSendsScenePositionChanges | QGraphicsItem::ItemSendsGeometryChanges);
     capture_item->setAcceptHoverEvents(true);
     capture_item->setPen(QPen(QBrush(FrameColor), CaptureItemwidth, Qt::DashLine));
-    capture_item->setBrush(TransparentColor);
+    capture_item->setBrush(QColor(0, 0, 0, 0));
     connect(capture_item, &ScreenCaptureItem::positionRectChanged, background_item, &BackgroundPolygonItem::onItemRectChanged);
     connect(capture_item, &ScreenCaptureItem::sizeRectChanged, background_item, &BackgroundPolygonItem::onItemRectChanged);
     scene->addItem(capture_item);
     capture_item->addResizeItems(scene);
 
-    background_item->onItemRectChanged(capture_item->boundingRect());
+    background_item->onItemRectChanged(capture_item->rect());
 
     CurrentSizeItem* cur_size_item = new CurrentSizeItem;
-    cur_size_item->onItemRectChanged(capture_item->boundingRect());
+    cur_size_item->onItemRectChanged(capture_item->rect());
     connect(capture_item, &ScreenCaptureItem::positionRectChanged, cur_size_item, &CurrentSizeItem::onItemRectChanged);
     connect(capture_item, &ScreenCaptureItem::sizeRectChanged, cur_size_item, &CurrentSizeItem::onItemRectChanged);
     scene->addItem(cur_size_item);

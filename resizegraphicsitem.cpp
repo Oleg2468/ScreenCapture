@@ -2,9 +2,6 @@
 #include <QCursor>
 #include <QGraphicsScene>
 
-const int MinimumRectWidth = 64;
-const int MinimumRectHeight = 64;
-
 ResizeGraphicsItem::ResizeGraphicsItem(ResizeMode mode, const QRectF &rect/* = QRectF()*/, QGraphicsItem *parent/* = nullptr*/, QObject *scene/* = nullptr*/) :
     QObject(scene),
     QGraphicsRectItem(rect, parent),
@@ -107,23 +104,21 @@ QVariant ResizeGraphicsItem::itemChange(GraphicsItemChange change, const QVarian
 
         switch (ResizeModeValue)
         {
-            case ResizeMode::TopLeft:
-            case ResizeMode::TopRight:
-            case ResizeMode::BottomLeft:
-            case ResizeMode::BottomRight:
-                new_pos = value.toPointF();
-                break;
-            case ResizeMode::Left:
-            case ResizeMode::Right:
-                new_pos = QPointF(value.toPointF().x(), pos().y());
-                break;
-            case ResizeMode::Top:
-            case ResizeMode::Bottom:
-                new_pos = QPointF(pos().x(), value.toPointF().y());
-                break;
+        case ResizeMode::TopLeft:
+        case ResizeMode::TopRight:
+        case ResizeMode::BottomLeft:
+        case ResizeMode::BottomRight:
+            new_pos = value.toPointF();
+            break;
+        case ResizeMode::Left:
+        case ResizeMode::Right:
+            new_pos = QPointF(value.toPointF().x(), pos().y());
+            break;
+        case ResizeMode::Top:
+        case ResizeMode::Bottom:
+            new_pos = QPointF(pos().x(), value.toPointF().y());
+            break;
         }
-
-        const QPointF& centr_scene_pos = rect().center() + new_pos;
 
         emit positionChanged(rect().center() + new_pos, ResizeModeValue);
         return new_pos;
